@@ -118,17 +118,17 @@ class DepthLabUI:
     def _questions_panel(self, parent):
         self.label(parent, "课程问题 / Вопросы к лабораторной", 18, self.BLUE, True).pack(fill="x", padx=24, pady=(20, 14))
         questions = [
-            "1. 三种缺失类型是什么？ / Какие бывают три типа пропусков?",
-            "2. 为什么 Inpainting 要最后使用？ / Почему Inpainting применяется последним?",
-            "3. 容错的四个步骤是什么？ / Какие четыре шага отказоустойчивости?",
-            "4. Data Card 应包含哪些信息？ / Что должно быть в Data Card?",
-            "5. Reproducibility 和 Repeatability 有什么区别？",
+            "1. 三种缺失类型是什么？ / Какие бывают три типа пропусков?\n答：随机缺失、数据包缺失、结构性缺失。/ Случайные, пакетные и структурные пропуски.",
+            "2. 为什么 Inpainting 要最后使用？ / Почему Inpainting применяется последним?\n答：它可能生成看起来合理但不真实的数据，所以先用掩码、插值等保守方法。/ Метод может придумать правдоподобные, но неверные значения, поэтому сначала применяем маску и более безопасные методы.",
+            "3. 容错的四个步骤是什么？ / Какие четыре шага отказоустойчивости?\n答：发现、隔离、重新配置、降级运行。/ Обнаружить, изолировать, реконфигурировать и деградировать.",
+            "4. Data Card 应包含哪些信息？ / Что должно быть в Data Card?\n答：数据集、采集环境、传感器频率、标定、单位、坐标系、已知问题和许可证。/ Датасет, условия съёмки, сенсоры, частоты, калибровка, единицы, система координат, проблемы и лицензия.",
+            "5. Reproducibility 和 Repeatability 有什么区别？ / Чем отличаются reproducibility и repeatability?\n答：Repeatability 是同一个人用相同代码和数据重复得到相同结果；Reproducibility 是换一个人也能得到相同结果。/ Repeatability — тот же человек, код и данные дают тот же результат; reproducibility — другой человек может получить тот же результат.",
         ]
         box = tk.Frame(parent, bg=self.CARD)
         box.pack(fill="both", expand=True, padx=24, pady=(0, 24))
         for q in questions:
             tk.Label(box, text=q, bg="#0d1727", fg=self.FG, anchor="w", justify="left",
-                     font=("Segoe UI", 13), padx=18, pady=14).pack(fill="x", pady=5)
+                     font=("Segoe UI", 11), padx=18, pady=14).pack(fill="x", pady=5)
 
     def _slider(self, parent, text, variable, lo, hi, x, y):
         tk.Label(parent, text=text, bg=self.CARD, fg=self.MUTED, font=("Segoe UI", 10), anchor="w").place(x=26 + x * 380, y=15)
