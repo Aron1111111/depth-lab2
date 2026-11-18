@@ -83,7 +83,11 @@ class AllExperimentsUI:
                     canvas.pack(padx=15, pady=(12, 6))
                     photo = ImageTk.PhotoImage(im)
                     self.photos.append(photo)
-                    canvas.create_image(160, 122, image=photo)
+                    # Keep a reference on the widget as well as the root. This
+                    # prevents Tk from garbage-collecting images after tab setup.
+                    canvas.image = photo
+                    canvas.create_image(0, 0, anchor="nw", image=photo)
+                    canvas.update_idletasks()
                     text = path.name
                 except Exception:
                     text = "无法读取图片 / Не удалось открыть"
