@@ -69,6 +69,8 @@ class AllExperimentsUI:
         notebook = ttk.Notebook(self.root, style="All.TNotebook", width=1545, height=835)
         notebook.pack(fill="both", expand=True, padx=24, pady=(0, 18))
         for key, title, subtitle in CATALOG:
+            if not self._image_candidates(EXPERIMENTS / key, key):
+                continue
             tab = tk.Frame(notebook, bg=self.BG)
             notebook.add(tab, text=key.upper())
             self._build_experiment(tab, key, title, subtitle)
@@ -78,34 +80,31 @@ class AllExperimentsUI:
         tk.Label(parent, text=title, bg=self.BG, fg=self.BLUE, font=("Segoe UI", 21, "bold"), anchor="w").pack(fill="x", padx=20, pady=(18, 2))
         tk.Label(parent, text=subtitle, bg=self.BG, fg=self.MUTED, font=("Segoe UI", 11), anchor="w").pack(fill="x", padx=20, pady=(0, 12))
 
-        gallery = tk.Frame(parent, bg=self.BG, height=340)
+        gallery = tk.Frame(parent, bg=self.BG, height=430)
         gallery.pack(fill="x", padx=20)
         gallery.pack_propagate(False)
         images = self._image_candidates(folder, key)
-        for i in range(4):
-            card = tk.Frame(gallery, bg=self.CARD, width=350, height=320)
-            card.pack(side="left", padx=(0, 12))
+        count = max(1, len(images))
+        card_width = max(350, int(1500 / count) - 35)
+        canvas_width = card_width - 30
+        canvas_height = 340
+        for i, path in enumerate(images):
+            card = tk.Frame(gallery, bg=self.CARD, width=card_width, height=410)
+            card.pack(side="left", padx=(0, 12), expand=True)
             card.pack_propagate(False)
-            if i < len(images):
-                path = images[i]
-                try:
-                    im = Image.open(path).convert("RGB")
-                    im.thumbnail((320, 245))
-                    canvas = tk.Canvas(card, width=320, height=245, bg="#050a12", highlightthickness=0)
-                    canvas.pack(padx=15, pady=(12, 6))
-                    photo = ImageTk.PhotoImage(im)
-                    self.photos.append(photo)
-                    # Keep a reference on the widget as well as the root. This
-                    # prevents Tk from garbage-collecting images after tab setup.
-                    canvas.image = photo
-                    canvas.create_image(0, 0, anchor="nw", image=photo)
-                    canvas.update_idletasks()
-                    text = path.name
-                except Exception:
-                    text = "无法读取图片 / Не удалось открыть"
-            else:
-                text = "本实验没有独立图片结果 / Нет отдельного изображения"
-                tk.Label(card, text="—", bg="#050a12", fg=self.MUTED, font=("Segoe UI", 36)).pack(fill="both", expand=True, padx=15, pady=12)
+            try:
+                im = Image.open(path).convert("RGB")
+                im.thumbnail((canvas_width, canvas_height))
+                canvas = tk.Canvas(card, width=canvas_width, height=canvas_height, bg="#050a12", highlightthickness=0)
+                canvas.pack(padx=15, pady=(12, 6))
+                photo = ImageTk.PhotoImage(im)
+                self.photos.append(photo)
+                canvas.image = photo
+                canvas.create_image(0, 0, anchor="nw", image=photo)
+                canvas.update_idletasks()
+                text = path.name
+            except Exception:
+                text = "无法读取图片 / Не удалось открыть"
             tk.Label(card, text=text, bg=self.CARD, fg=self.MUTED, font=("Segoe UI", 9), wraplength=320).pack(padx=12)
 
         lower = tk.Frame(parent, bg=self.CARD, height=365)
