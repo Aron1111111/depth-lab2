@@ -43,8 +43,28 @@ class DepthLabUI:
         tk.Label(header, text="固定随机种子 · 掩码 · 形态学闭运算 · Guided Filter · 指标对比",
                  font=("Segoe UI", 11), fg=self.MUTED, bg=self.BG).pack(anchor="w", pady=(5, 0))
 
-        controls = tk.Frame(self.root, bg=self.CARD, width=1452, height=128)
-        controls.pack(fill="x", padx=24, pady=(0, 12))
+        style = ttk.Style()
+        style.theme_use("clam")
+        style.configure("Depth.TNotebook", background=self.BG, borderwidth=0)
+        style.configure("Depth.TNotebook.Tab", background="#dbe7f3", foreground="#35516b", padding=(24, 12), font=("Segoe UI", 11))
+        style.map("Depth.TNotebook.Tab", background=[("selected", "#ffffff")], foreground=[("selected", "#173d68")])
+        notebook = ttk.Notebook(self.root, style="Depth.TNotebook", width=1452, height=770)
+        notebook.pack(fill="both", expand=True, padx=24, pady=(0, 18))
+        depth_tab = tk.Frame(notebook, bg=self.BG)
+        notebook.add(depth_tab, text="Глубина / 深度")
+        metrics_tab = tk.Frame(notebook, bg=self.CARD)
+        notebook.add(metrics_tab, text="Метрики / 指标")
+        data_tab = tk.Frame(notebook, bg=self.CARD)
+        notebook.add(data_tab, text="Data card")
+        readme_tab = tk.Frame(notebook, bg=self.CARD)
+        notebook.add(readme_tab, text="README")
+        checklist_tab = tk.Frame(notebook, bg=self.CARD)
+        notebook.add(checklist_tab, text="Чек-лист / 清单")
+        questions_tab = tk.Frame(notebook, bg=self.CARD)
+        notebook.add(questions_tab, text="Вопросы / 问题")
+
+        controls = tk.Frame(depth_tab, bg=self.CARD, width=1452, height=128)
+        controls.pack(fill="x", pady=(0, 12))
         controls.pack_propagate(False)
         self.missing_var = tk.DoubleVar(value=13.3)
         self.hole_var = tk.IntVar(value=28)
@@ -55,7 +75,7 @@ class DepthLabUI:
         tk.Button(controls, text="重新运行 / Запустить", command=self.run_experiment, bg=self.BLUE, fg="white",
                   relief="flat", font=("Segoe UI", 11, "bold"), width=18, cursor="hand2").place(x=1160, y=43, height=42)
 
-        body = tk.Frame(self.root, bg=self.BG)
+        body = tk.Frame(depth_tab, bg=self.BG)
         body.pack(fill="both", expand=True, padx=24)
         self.canvases = []
         for title in ["棒球图像 / Baseball RGB", "缺失深度 / Corrupted", "修复深度 / Restored", "有效性掩码 / Mask"]:
@@ -67,7 +87,7 @@ class DepthLabUI:
             canvas.pack(padx=14)
             self.canvases.append(canvas)
 
-        bottom = tk.Frame(self.root, bg=self.CARD, height=220)
+        bottom = tk.Frame(depth_tab, bg=self.CARD, height=220)
         bottom.pack(fill="x", padx=24, pady=(0, 18))
         bottom.pack_propagate(False)
         self.status = tk.Label(bottom, text="", font=("Segoe UI", 12), fg=self.FG, bg=self.CARD, anchor="w", justify="left")
@@ -77,6 +97,38 @@ class DepthLabUI:
         self.log.pack(side="left", padx=16, pady=(0, 12))
         tk.Button(bottom, text="保存指标 / Сохранить", command=self.save_metrics, bg="#1f8f68", fg="white",
                   relief="flat", font=("Segoe UI", 10, "bold"), width=18, cursor="hand2").pack(side="right", padx=22, pady=54)
+
+        self._doc_panel(metrics_tab, "实验指标 / Метрики", "results/metrics_before_after.json")
+        self._doc_panel(data_tab, "数据卡片 / Data Card", "data_card.yaml")
+        self._doc_panel(readme_tab, "实验说明 / README", "README.md")
+        self._doc_panel(checklist_tab, "可复现性检查清单 / Чек-лист воспроизводимости", "CHECKLIST.md")
+        self._questions_panel(questions_tab)
+
+    def _doc_panel(self, parent, title, relative_path):
+        self.label(parent, title, 18, self.BLUE, True).pack(fill="x", padx=24, pady=(20, 10))
+        path = Path(__file__).resolve().parent / relative_path
+        if not path.exists():
+            path = Path(__file__).resolve().parent.parent / relative_path
+        text = tk.Text(parent, bg="#0d1727", fg=self.FG, insertbackground=self.FG, relief="flat",
+                       font=("Consolas", 11), wrap="word", padx=18, pady=14)
+        text.pack(fill="both", expand=True, padx=24, pady=(0, 24))
+        text.insert("1.0", path.read_text(encoding="utf-8") if path.exists() else "文件未找到 / Файл не найден")
+        text.config(state="disabled")
+
+    def _questions_panel(self, parent):
+        self.label(parent, "课程问题 / Вопросы к лабораторной", 18, self.BLUE, True).pack(fill="x", padx=24, pady=(20, 14))
+        questions = [
+            "1. 三种缺失类型是什么？ / Какие бывают три типа пропусков?",
+            "2. 为什么 Inpainting 要最后使用？ / Почему Inpainting применяется последним?",
+            "3. 容错的四个步骤是什么？ / Какие четыре шага отказоустойчивости?",
+            "4. Data Card 应包含哪些信息？ / Что должно быть в Data Card?",
+            "5. Reproducibility 和 Repeatability 有什么区别？",
+        ]
+        box = tk.Frame(parent, bg=self.CARD)
+        box.pack(fill="both", expand=True, padx=24, pady=(0, 24))
+        for q in questions:
+            tk.Label(box, text=q, bg="#0d1727", fg=self.FG, anchor="w", justify="left",
+                     font=("Segoe UI", 13), padx=18, pady=14).pack(fill="x", pady=5)
 
     def _slider(self, parent, text, variable, lo, hi, x, y):
         tk.Label(parent, text=text, bg=self.CARD, fg=self.MUTED, font=("Segoe UI", 10), anchor="w").place(x=26 + x * 380, y=15)
