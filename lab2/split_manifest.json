@@ -1,0 +1,8 @@
+{
+  "dataset": "synthetic_rgbd_depth_lab2",
+  "version": "1.0.0",
+  "seed": 20241110,
+  "split_policy": "single deterministic evaluation scene; no training split is used",
+  "evaluation_scene": "generated_from_config.json",
+  "note": "This restoration lab is non-learning; the fixed evaluation scene replaces train/validation/test splits."
+}
