@@ -101,11 +101,33 @@ class AllExperimentsUI:
                 self.photos.append(photo)
                 canvas.image = photo
                 canvas.create_image(0, 0, anchor="nw", image=photo)
+                canvas.bind("<Button-1>", lambda _event, image_path=path: self._open_image(image_path))
+                canvas.configure(cursor="hand2")
                 canvas.update_idletasks()
                 text = path.name
             except Exception:
                 text = "无法读取图片 / Не удалось открыть"
             tk.Label(card, text=text, bg=self.CARD, fg=self.MUTED, font=("Segoe UI", 9), wraplength=320).pack(padx=12)
+
+    def _open_image(self, path: Path):
+        """Open the selected experiment image in a larger, fixed preview window."""
+        try:
+            image = Image.open(path).convert("RGB")
+        except Exception:
+            return
+        preview = tk.Toplevel(self.root)
+        preview.title(f"图片预览 / Просмотр · {path.name}")
+        preview.geometry("1200x820")
+        preview.resizable(False, False)
+        preview.configure(bg=self.BG)
+        tk.Label(preview, text=f"{path.parent.name}  ·  {path.name}", bg=self.BG, fg=self.FG,
+                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=18, pady=(14, 8))
+        canvas = tk.Canvas(preview, width=1160, height=730, bg="#050a12", highlightthickness=0)
+        canvas.pack(padx=20, pady=(0, 16))
+        image.thumbnail((1140, 710))
+        photo = ImageTk.PhotoImage(image)
+        canvas.image = photo
+        canvas.create_image(580, 365, anchor="center", image=photo)
 
         lower = tk.Frame(parent, bg=self.CARD, height=365)
         lower.pack(fill="both", expand=True, padx=20, pady=(14, 20))
