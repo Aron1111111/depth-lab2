@@ -23,6 +23,18 @@ CATALOG = [
     ("task9", "同步与标定 / Calibration", "Camera、LiDAR、IMU 的同步和标定"),
     ("lab2", "深度修复 / Depth", "缺失 depth 修复与可复现性实验"),
 ]
+CONCLUSIONS = {
+    "task1": "结论：不同噪声需要不同恢复方法，PSNR 和 SSIM 可以用来比较恢复质量。/ Вывод: для разных шумов нужны разные методы восстановления; PSNR и SSIM помогают сравнить качество.",
+    "task2": "结论：图像增强可以改善亮度和对比度，但参数过大可能放大噪声。/ Вывод: улучшение повышает яркость и контраст, но слишком сильные параметры усиливают шум.",
+    "task3": "结论：通过阈值、轮廓和几何公式，可以从图像中得到可解释的测量结果。/ Вывод: пороговая обработка, контуры и геометрические формулы дают интерпретируемые измерения.",
+    "task4": "结论：分割的关键是把目标和背景分开，并用可视化检查结果是否合理。/ Вывод: главное в сегментации — отделить объект от фона и проверить результат визуально.",
+    "task5": "结论：特征匹配和单应性变换可以把两张有重叠区域的图片拼成全景图。/ Вывод: сопоставление признаков и гомография позволяют объединить изображения с перекрытием в панораму.",
+    "task6": "结论：传统分类器可以完成猫狗分类，但效果依赖特征、数据划分和参数。/ Вывод: классические классификаторы решают задачу кошка/собака, но результат зависит от признаков, разбиения и параметров.",
+    "task7": "结论：CNN 能够自动学习图像特征，应该和基线模型一起用指标比较。/ Вывод: CNN автоматически изучает признаки изображения, поэтому его нужно сравнивать с базовыми моделями по метрикам.",
+    "task8": "结论：融合多个传感器可以提高判断稳定性，但必须处理时间和坐标的一致性。/ Вывод: слияние сенсоров повышает устойчивость, но требует согласованных времени и координат.",
+    "task9": "结论：同步和标定直接影响多传感器融合；时间偏移或外参错误都会增加重投影误差。/ Вывод: синхронизация и калибровка напрямую влияют на fusion; ошибка времени или внешних параметров увеличивает reprojection error.",
+    "lab2": "结论：缺失 depth 应先显式标记，再用形态学和 Guided Filter 修复，并用 valid 比例和 RMSE 验证。/ Вывод: пропуски depth нужно сначала явно отметить, затем восстановить морфологией и Guided Filter и проверить valid-процентом и RMSE.",
+}
 
 
 class AllExperimentsUI:
@@ -99,6 +111,13 @@ class AllExperimentsUI:
         lower = tk.Frame(parent, bg=self.CARD, height=365)
         lower.pack(fill="both", expand=True, padx=20, pady=(14, 20))
         lower.pack_propagate(False)
+        conclusion = tk.Frame(lower, bg="#10243a", height=66)
+        conclusion.pack(fill="x", padx=18, pady=(14, 0))
+        conclusion.pack_propagate(False)
+        tk.Label(conclusion, text="实验结论 / Вывод", bg="#10243a", fg=self.BLUE,
+                 font=("Segoe UI", 11, "bold"), anchor="w").pack(side="left", padx=(12, 16), pady=10)
+        tk.Label(conclusion, text=CONCLUSIONS.get(key, "暂无结论 / Вывод пока не добавлен"), bg="#10243a", fg=self.FG,
+                 font=("Segoe UI", 9), anchor="w", justify="left", wraplength=1180).pack(side="left", fill="both", expand=True, pady=8)
         metrics = self._metrics(folder)
         left = tk.Frame(lower, bg=self.CARD, width=720)
         left.pack(side="left", fill="both", expand=True, padx=18, pady=14)
