@@ -109,26 +109,6 @@ class AllExperimentsUI:
                 text = "无法读取图片 / Не удалось открыть"
             tk.Label(card, text=text, bg=self.CARD, fg=self.MUTED, font=("Segoe UI", 9), wraplength=320).pack(padx=12)
 
-    def _open_image(self, path: Path):
-        """Open the selected experiment image in a larger, fixed preview window."""
-        try:
-            image = Image.open(path).convert("RGB")
-        except Exception:
-            return
-        preview = tk.Toplevel(self.root)
-        preview.title(f"图片预览 / Просмотр · {path.name}")
-        preview.geometry("1200x820")
-        preview.resizable(False, False)
-        preview.configure(bg=self.BG)
-        tk.Label(preview, text=f"{path.parent.name}  ·  {path.name}", bg=self.BG, fg=self.FG,
-                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=18, pady=(14, 8))
-        canvas = tk.Canvas(preview, width=1160, height=730, bg="#050a12", highlightthickness=0)
-        canvas.pack(padx=20, pady=(0, 16))
-        image.thumbnail((1140, 710))
-        photo = ImageTk.PhotoImage(image)
-        canvas.image = photo
-        canvas.create_image(580, 365, anchor="center", image=photo)
-
         lower = tk.Frame(parent, bg=self.CARD, height=365)
         lower.pack(fill="both", expand=True, padx=20, pady=(14, 20))
         lower.pack_propagate(False)
@@ -155,6 +135,26 @@ class AllExperimentsUI:
         text += "\n\n结果目录 / Папка результатов: " + ("results/" if (folder / "results").exists() else "无独立 results")
         box = tk.Text(right, bg="#0d1727", fg=self.MUTED, relief="flat", font=("Consolas", 10), wrap="word")
         box.pack(fill="both", expand=True, pady=(8, 0)); box.insert("1.0", text); box.config(state="disabled")
+
+    def _open_image(self, path: Path):
+        """Open the selected experiment image in a larger, fixed preview window."""
+        try:
+            image = Image.open(path).convert("RGB")
+        except Exception:
+            return
+        preview = tk.Toplevel(self.root)
+        preview.title(f"图片预览 / Просмотр · {path.name}")
+        preview.geometry("1200x820")
+        preview.resizable(False, False)
+        preview.configure(bg=self.BG)
+        tk.Label(preview, text=f"{path.parent.name}  ·  {path.name}", bg=self.BG, fg=self.FG,
+                 font=("Segoe UI", 13, "bold")).pack(anchor="w", padx=18, pady=(14, 8))
+        canvas = tk.Canvas(preview, width=1160, height=730, bg="#050a12", highlightthickness=0)
+        canvas.pack(padx=20, pady=(0, 16))
+        image.thumbnail((1140, 710))
+        photo = ImageTk.PhotoImage(image)
+        canvas.image = photo
+        canvas.create_image(580, 365, anchor="center", image=photo)
 
     def _image_candidates(self, folder: Path, key: str):
         preferred = {
