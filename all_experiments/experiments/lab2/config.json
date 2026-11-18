@@ -1,0 +1,9 @@
+{
+  "seed": 20241110,
+  "width": 260,
+  "height": 180,
+  "random_missing_rate": 0.1,
+  "holes": [[48, 95, 18, 28], [112, 170, 30, 40]],
+  "morph_radius": 1,
+  "guided_radius": 4
+}

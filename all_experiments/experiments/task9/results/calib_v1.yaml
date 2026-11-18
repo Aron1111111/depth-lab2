@@ -1,0 +1,23 @@
+version: 1
+coordinate_convention: 'target_camera = R_lidar_to_camera * target_lidar + t'
+time:
+  camera_to_lidar_offset_s: 0.050500
+  camera_to_lidar_offset_ground_truth_s: 0.050000
+camera_model:
+  K:
+    - [640.00000000, 0.00000000, 640.00000000]
+    - [0.00000000, 640.00000000, 360.00000000]
+    - [0.00000000, 0.00000000, 1.00000000]
+  distortion: [0.0, 0.0, 0.0, 0.0, 0.0]
+spatial:
+  lidar_to_camera:
+    R:
+      - [0.99855562, -0.05372719, -0.00024784]
+      - [0.05372733, 0.99855545, 0.00062382]
+      - [0.00021396, -0.00063623, 0.99999977]
+    t_m: [0.23292747, -0.08459032, 0.13915422]
+metrics:
+  match_rate: 0.996667
+  jitter_s: 0.014960
+  reprojection_before_px: 19.584057
+  reprojection_after_px: 0.563169

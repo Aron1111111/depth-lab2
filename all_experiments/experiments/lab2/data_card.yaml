@@ -1,0 +1,17 @@
+name: synthetic_rgbd_depth_lab2
+version: 1.0.0
+purpose: Reproducible depth-hole restoration experiment
+resolution: [260, 180]
+units: meters
+coordinate_system: camera_optical_frame
+sensors:
+  rgb_guidance: synthetic_grayscale
+  depth: synthetic_depth
+known_issues:
+  - 10 percent random invalid depth samples
+  - two contiguous missing regions
+calibration: synthetic_identity_v1
+random_seed: 20241110
+config: config.json
+split_manifest: split_manifest.json
+license: educational

@@ -1,0 +1,11 @@
+{
+  "time_offset_ms": 50.0,
+  "yaw_deg": 5.0,
+  "tx_m": 0.23,
+  "ty_m": -0.08,
+  "lidar_range_m": 8.0,
+  "lidar_noise_m": 0.03,
+  "imu_angular_velocity_rad_s": 0.13,
+  "imu_noise": 0.01,
+  "camera_source": "real webcam with demo fallback"
+}

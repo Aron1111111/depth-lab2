@@ -1,0 +1,77 @@
+{
+  "experiment": "multisensor_synchronization_and_calibration",
+  "seed": 42,
+  "data": {
+    "duration_s": 10.0,
+    "camera_fps": 30,
+    "lidar_hz": 10,
+    "imu_hz": 200,
+    "synthetic": true
+  },
+  "time_sync": {
+    "ground_truth_offset_s": 0.05,
+    "estimated_offset_s": 0.05050000000000002,
+    "absolute_offset_error_ms": 0.5000000000000143,
+    "jitter_s": 0.014959745903218682,
+    "match_rate": 0.9966666666666667
+  },
+  "camera_model": {
+    "K": [
+      [
+        640.0,
+        0.0,
+        640.0
+      ],
+      [
+        0.0,
+        640.0,
+        360.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "distortion": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "spatial_calibration": {
+    "R_lidar_to_camera": [
+      [
+        0.9985556208561216,
+        -0.05372718709837846,
+        -0.0002478369232789353
+      ],
+      [
+        0.05372733267582055,
+        0.9985554489248741,
+        0.0006238156661940645
+      ],
+      [
+        0.00021396304917222804,
+        -0.0006362302566824569,
+        0.9999997747154115
+      ]
+    ],
+    "t_lidar_to_camera_m": [
+      0.23292747293340693,
+      -0.08459032299082946,
+      0.13915422389744503
+    ],
+    "rotation_error_deg": 0.08860994586794024,
+    "translation_error_m": 0.0055096733253089235,
+    "reprojection_before_px": 19.584057451192265,
+    "reprojection_after_px": 0.5631691406951315
+  },
+  "acceptance": {
+    "time_offset_error_ms_under_10": true,
+    "match_rate_over_0_8": true,
+    "reprojection_after_under_3px": true
+  }
+}

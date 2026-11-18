@@ -1,0 +1,23 @@
+{
+  "camera": {
+    "present": false,
+    "confidence": 0.28,
+    "reason": "边缘 0.02 / 运动 0.00"
+  },
+  "radar": {
+    "present": true,
+    "distance_m": 2.3,
+    "speed_mps": 0.8,
+    "confidence": 0.9
+  },
+  "ultrasonic": {
+    "present": true,
+    "distance_m": 0.9,
+    "confidence": 0.85
+  },
+  "fusion": {
+    "method": "Weighted",
+    "result": true,
+    "score": 0.72
+  }
+}

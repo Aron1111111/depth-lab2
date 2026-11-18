@@ -1,0 +1,36 @@
+{
+  "seed": 20241110,
+  "shape": [
+    180,
+    260
+  ],
+  "missing_rate": 0.13288461538461538,
+  "valid_percent_before": 86.71153846153847,
+  "valid_percent_after": 96.35897435897436,
+  "rmse_observed_valid_pixels_m": 0.0,
+  "rmse_restored_missing_pixels_m": 0.33716746555007365,
+  "rmse_restored_all_pixels_m": 0.12290880983273184,
+  "method": "validity mask + 3x3 morphological closing + masked guided filter",
+  "config": {
+    "seed": 20241110,
+    "width": 260,
+    "height": 180,
+    "random_missing_rate": 0.1,
+    "holes": [
+      [
+        48,
+        95,
+        18,
+        28
+      ],
+      [
+        112,
+        170,
+        30,
+        40
+      ]
+    ],
+    "morph_radius": 1,
+    "guided_radius": 4
+  }
+}
