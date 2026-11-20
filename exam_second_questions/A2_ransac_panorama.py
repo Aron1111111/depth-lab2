@@ -10,6 +10,11 @@ OUT = ROOT / "results"; OUT.mkdir(exist_ok=True)
 
 
 def make_demo():
+    painting = ROOT / "assets" / "chinese_painting.png"
+    if painting.exists():
+        img = cv2.imread(str(painting))
+        img = cv2.resize(img, (900, 500), interpolation=cv2.INTER_AREA)
+        return img[:, :620].copy(), img[:, 280:].copy()
     rng = np.random.default_rng(7)
     img = np.full((420, 760, 3), 245, np.uint8)
     cv2.rectangle(img, (30, 35), (730, 385), (40, 120, 190), 4)

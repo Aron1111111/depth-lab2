@@ -8,4 +8,5 @@ if exist "..\.venv\Scripts\python.exe" (
 %PY% A2_ransac_panorama.py
 %PY% B2_kalman_fusion.py
 %PY% C2_morphology.py
+%PY% exam_ui.py
 pause

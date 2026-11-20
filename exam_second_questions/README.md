@@ -7,6 +7,7 @@
 python A2_ransac_panorama.py
 python B2_kalman_fusion.py
 python C2_morphology.py
+python exam_ui.py
 ```
 
 - `A2_ransac_panorama.py`：SIFT 特征 + 比值检验 + RANSAC 单应矩阵 + 全景拼接。
@@ -15,3 +16,6 @@ python C2_morphology.py
 
 A2 和 C2 需要 OpenCV、NumPy；B2 只需要 NumPy。
 A2 и C2 требуют OpenCV и NumPy; B2 требует только NumPy.
+
+`exam_ui.py` 会把三个程序的运行图集中显示，方便老师查看。
+`exam_ui.py` показывает результаты трёх программ в одном интерфейсе.
